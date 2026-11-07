@@ -101,6 +101,19 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			],
 		},
 		{
+			code: "({ a: 1 } === b) ? false : true;",
+			output: "({ a: 1 } !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
+		},
+		{
 			code: "var a = x != 1 ? false : true;",
 			output: "var a = x == 1;",
 			errors: [
@@ -175,6 +188,19 @@ ruleTester.run("no-unneeded-ternary", rule, {
 					column: 9,
 					endLine: 1,
 					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "function f() { return(foo) ? true : true; }",
+			output: "function f() { return true; }",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 41,
 				},
 			],
 		},
